@@ -5,6 +5,9 @@ from email.mime.text import MIMEText
 from email.utils import formatdate
 from dotenv import load_dotenv
 from playwright.async_api import async_playwright
+import sys
+sys.stdout.reconfigure(line_buffering=True)
+
 
 load_dotenv()
 
