@@ -111,7 +111,11 @@ async def check_one_date(page, ymd: str) -> bool:
 async def run_once():
     dates = list(_daterange(START_DATE, END_DATE))
     async with async_playwright() as pw:
-        browser = await pw.chromium.launch(headless=True)
+        browser = await pw.chromium.launch(
+            headless=True,
+            args=["--no-sandbox", "--disable-setuid-sandbox"]
+        )
+
         context = await browser.new_context(storage_state=STATE_PATH if os.path.exists(STATE_PATH) else None)
         page = await context.new_page()
 

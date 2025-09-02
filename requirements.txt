@@ -1,2 +1,2 @@
-playwright[browsers]
 python-dotenv
+playwright
