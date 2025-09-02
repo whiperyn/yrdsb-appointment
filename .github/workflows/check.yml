@@ -1,0 +1,33 @@
+name: Check YRDSB Appointments
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"   # every 10 minutes
+  workflow_dispatch:         # allow manual run
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - run: python -m playwright install chromium
+      - name: Run checker
+        env:
+          BASE: https://ta.yrdsb.ca
+          USER_ID: ${{ secrets.USER_ID }}
+          USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
+          SCHOOL_ID: "58"
+          STUDENT_ID: "222629"
+          START_DATE: "2025-09-02"
+          END_DATE: "2025-09-11"
+          ALERT_EMAIL_TO: "aha.marianli@gmail.com"
+          ALERT_EMAIL_FROM: "rlnzhangrln@gmail.com"
+          SMTP_HOST: "smtp.gmail.com"
+          SMTP_PORT: "587"
+          SMTP_USER: "rlnzhangrln@gmail.com"
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}   # Gmail App Password
+        run: python check_once.py
